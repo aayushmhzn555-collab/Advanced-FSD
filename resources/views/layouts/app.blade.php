@@ -1,36 +1,40 @@
-@extends('layouts.app')
 
-@section('title', 'Courses')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@yield('title', 'Student Management')</title>
 
-@section('content')
-<h1>Courses</h1>
-<a href="{{ route('courses.create') }}" class="btn btn-primary mb-3">Add Course</a>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Name</th><th>Fee</th><th>Difficulty</th><th>Active</th><th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($courses as $course)
-        <tr>
-            <td>{{ $course->name }}</td>
-            <td>{{ $course->fee }}</td>
-            <td>{{ $course->difficulty }}</td>
-            <td>{{ $course->is_active ? 'Yes' : 'No' }}</td>
-            <td>
-                <a href="{{ route('courses.show', $course) }}" class="btn btn-info btn-sm">View</a>
-                <a href="{{ route('courses.edit', $course) }}" class="btn btn-warning btn-sm">Edit</a>
-                <form action="{{ route('courses.destroy', $course) }}" method="POST" style="display:inline;">
-                    @csrf @method('DELETE')
-                    <button class="btn btn-danger btn-sm" onclick="return confirm('Delete this course?')">Delete</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{{ route('students.index') }}">
+                Student Management
+            </a>
 
-{{ $courses->links() }}
-@endsection
+            <div class="navbar-nav">
+                <a class="nav-link" href="{{ route('students.index') }}">Students</a>
+                <a class="nav-link" href="{{ route('courses.index') }}">Courses</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-4">
+
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @yield('content')
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
